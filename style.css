@@ -1,328 +1,125 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+const GITHUB_USERNAME = 'zedo14';
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    min-height: 100vh;
-    padding: 20px;
-    overflow-x: hidden;
-}
+// Show loader for 1.5 seconds then show content
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }, 500);
+    }, 1500);
+});
 
-/* Loader Animation */
-.loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s;
-}
-
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 5px solid rgba(255,255,255,0.3);
-    border-top: 5px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader p {
-    color: white;
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-
-/* Fade In Animation */
-.fade-in {
-    animation: fadeIn 0.8s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Slide Down */
-.slide-down {
-    animation: slideDown 0.6s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
+// Weather functions
+async function getWeather() {
+    const city = document.getElementById('cityInput').value;
+    if (!city) {
+        showWeatherError('እባክዎ ከተም ያስገቡ');
+        return;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    await fetchWeather(city);
 }
 
-/* Slide Right */
-.slide-right {
-    animation: slideRight 0.6s ease-out;
-}
-
-@keyframes slideRight {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Zoom In */
-.zoom-in {
-    animation: zoomIn 0.6s ease-out;
-}
-
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Fade Up */
-.fade-up {
-    animation: fadeUp 0.8s ease-out;
-}
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Bounce Animation for Cities */
-.bounce {
-    animation: bounce 0.5s ease-out;
-}
-
-@keyframes bounce {
-    0% {
-        opacity: 0;
-        transform: scale(0.3);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    70% {
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Pulse Animation for Weather Card */
-.pulse {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
-    }
-}
-
-/* Hover Animations */
-.city-card {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: bold;
-}
-
-.city-card:hover {
-    transform: translateY(-10px) scale(1.05);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-}
-
-.repo-card {
-    background: white;
-    border: 1px solid #e1e4e8;
-    border-radius: 10px;
-    padding: 20px;
-    transition: all 0.3s;
-}
-
-.repo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border-color: #667eea;
-}
-
-button {
-    transition: all 0.3s;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* Rest of CSS (same as before) */
-.search-box {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.search-box input {
-    flex: 1;
-    min-width: 250px;
-    padding: 15px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    outline: none;
-    transition: all 0.3s;
-}
-
-.search-box input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 10px rgba(102,126,234,0.3);
-}
-
-.search-box button {
-    padding: 15px 30px;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.search-box button:first-of-type {
-    background: #ff6b6b;
-    color: white;
-}
-
-.search-box button:last-of-type {
-    background: #4ecdc4;
-    color: white;
-}
-
-.weather-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    color: white;
-}
-
-.weather-card h2 {
-    color: white;
-    margin-bottom: 20px;
-}
-
-.temp {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-.cities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    margin: 20px 0 40px 0;
-}
-
-.repos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 20px 0;
-}
-
-.repo-stats {
-    display: flex;
-    gap: 15px;
-    margin-top: 15px;
-    font-size: 13px;
-    color: #586069;
-}
-
-.loading, .error {
-    text-align: center;
-    padding: 40px;
-}
-
-footer {
-    text-align: center;
-    margin-top: 50px;
-    padding-top: 20px;
-    color: #999;
-    border-top: 1px solid #e1e4e8;
-}
-
-h2 {
-    color: #1e3c72;
-    margin: 30px 0 20px 0;
-    border-left: 4px solid #ff6b6b;
-    padding-left: 15px;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-    }
+async function fetchWeather(city) {
+    const weatherDiv = document.getElementById('weather-result');
+    weatherDiv.innerHTML = '<div class="loading">⏳ በመጠየቅ ላይ...</div>';
     
-    .temp {
-        font-size: 2.5rem;
+    // Simulated weather data for Ethiopian cities
+    const weatherData = {
+        'Addis Ababa': { temp: 22, condition: '☀️ ፀሐያማ', humidity: 45, wind: 12 },
+        'Dire Dawa': { temp: 30, condition: '🌤️ ደመናማ', humidity: 38, wind: 15 },
+        'Bahir Dar': { temp: 25, condition: '☀️ ፀሐያማ', humidity: 52, wind: 10 },
+        'Gondar': { temp: 24, condition: '⛅ ትንሽ ደመና', humidity: 48, wind: 11 },
+        'Lalibela': { temp: 21, condition: '☀️ ፀሐያማ', humidity: 42, wind: 9 },
+        'Axum': { temp: 26, condition: '☀️ ፀሐያማ', humidity: 35, wind: 14 },
+        'Hawassa': { temp: 23, condition: '🌧️ ትንሽ ዝናብ', humidity: 65, wind: 8 },
+        'Mekelle': { temp: 22, condition: '⛅ ደመናማ', humidity: 44, wind: 13 }
+    };
+    
+    const data = weatherData[city];
+    
+    if (data) {
+        displayWeather(data, city);
+    } else {
+        displaySimulatedWeather(city);
     }
 }
+
+function displayWeather(data, city) {
+    const weatherHTML = `
+        <h2>🌍 ${city}, ኢትዮጵያ</h2>
+        <div class="temp">${data.temp}°C</div>
+        <div style="font-size: 1.2rem; margin: 10px 0;">${data.condition}</div>
+        <div class="weather-details" style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+            <div>💧 እርጥበት: ${data.humidity}%</div>
+            <div>💨 ንፋስ: ${data.wind} km/h</div>
+            <div>✈️ ኢትዮጵያ አየር መንገድ</div>
+        </div>
+        <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 10px;">
+            <small>💡 ወደ ${city} ለመጓዝ ተመች ጊዜ: ጥር - መጋቢት</small>
+        </div>
+    `;
+    document.getElementById('weather-result').innerHTML = weatherHTML;
+}
+
+function displaySimulatedWeather(city) {
+    const temp = Math.floor(Math.random() * 20) + 18;
+    const conditions = ['☀️ ፀሐያማ', '⛅ ደመናማ', '🌤️ ትንሽ ፀሐይ', '💨 ነፋሻማ'];
+    const condition = conditions[Math.floor(Math.random() * conditions.length)];
+    
+    const weatherHTML = `
+        <h2>🌍 ${city}, ኢትዮጵያ</h2>
+        <div class="temp">${temp}°C</div>
+        <div style="font-size: 1.2rem; margin: 10px 0;">${condition}</div>
+        <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 10px;">
+            <small>✈️ በኢትዮጵያ አየር መንገድ ወደ ${city} ይጓዙ!</small>
+        </div>
+    `;
+    document.getElementById('weather-result').innerHTML = weatherHTML;
+}
+
+async function getCityWeather(city) {
+    document.getElementById('cityInput').value = city;
+    await fetchWeather(city);
+}
+
+function getCurrentLocation() {
+    showWeatherError('📍 ይቅርታ! ቦታዎን ለማግኘት አልቻልኩም። እባክዎ ከተም ይምረጡ');
+}
+
+function showWeatherError(message) {
+    document.getElementById('weather-result').innerHTML = `
+        <div class="error">⚠️ ${message}</div>
+    `;
+}
+
+// GitHub repositories
+async function fetchGitHubData() {
+    try {
+        const reposResponse = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=stars&per_page=6`);
+        const repos = await reposResponse.json();
+        displayRepos(repos);
+    } catch (error) {
+        document.getElementById('github-repos').innerHTML = '<div class="error">⚠️ ፕሮጀክቶች ማምጣት አልተቻለም</div>';
+    }
+}
+
+function displayRepos(repos) {
+    const reposHTML = repos.map(repo => `
+        <div class="repo-card">
+            <h3><a href="${repo.html_url}" target="_blank">📁 ${repo.name}</a></h3>
+            <p>${repo.description || 'ምንም መግለጫ የለም'}</p>
+            <div class="repo-stats">
+                <span>⭐ ${repo.stargazers_count}</span>
+                <span>🍴 ${repo.forks_count}</span>
+                <span>🔄 ${repo.language || 'N/A'}</span>
+            </div>
+        </div>
+    `).join('');
+    document.getElementById('github-repos').innerHTML = reposHTML;
+}
+
+// Load default weather
+fetchGitHubData();
+getCityWeather('Addis Ababa');

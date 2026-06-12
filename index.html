@@ -1,63 +1,52 @@
 <!DOCTYPE html>
-<html lang="am">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ዘድ 14 | ፖርትፎሊዮ</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Zed14 Portfolio</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #667eea;
+            text-align: center;
+            padding: 50px;
+        }
+        .box {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 20px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <!-- Loading Animation -->
-    <div class="loader" id="loader">
-        <div class="spinner"></div>
-        <p>እባክዎ ይጠብቁ...</p>
+    <div class="box">
+        <h1>🚀 Zed14 Portfolio</h1>
+        <p id="test">Loading...</p>
+        <button onclick="test()">Click Me</button>
     </div>
 
-    <!-- Main Content -->
-    <div class="container fade-in" id="mainContent" style="display: none;">
-        <header class="slide-down">
-            <h1>🚀 ዘድ 14 ፖርትፎሊዮ</h1>
-            <p>ወደ ኢትዮጵያ አየር ሁኔታ እንኳን በደህና መጡ!</p>
-        </header>
-
-        <!-- Weather Section -->
-        <div class="weather-section zoom-in">
-            <div class="search-box">
-                <input type="text" id="cityInput" placeholder="ከተም ያስገቡ (ለምሳሌ: አዲስ አበባ)">
-                <button onclick="getWeather()">🔍 ፈልግ</button>
-                <button onclick="getCurrentLocation()">📍 ቦታዬ</button>
-            </div>
-
-            <div id="weather-result" class="weather-card pulse">
-                <div class="loading">🌤️ ከተም ይምረጡ...</div>
-            </div>
-        </div>
-
-        <!-- Ethiopian Cities -->
-        <h2 class="slide-right">🇪🇹 ታዋቂ ከተሞች</h2>
-        <div class="cities-grid">
-            <div class="city-card bounce" onclick="getCityWeather('Addis Ababa')">🏙️ አዲስ አበባ</div>
-            <div class="city-card bounce" onclick="getCityWeather('Dire Dawa')">🏛️ ድሬ ዳዋ</div>
-            <div class="city-card bounce" onclick="getCityWeather('Bahir Dar')">🌊 ባህር ዳር</div>
-            <div class="city-card bounce" onclick="getCityWeather('Gondar')">🏰 ጎንደር</div>
-            <div class="city-card bounce" onclick="getCityWeather('Lalibela')">⛪ ላሊበላ</div>
-            <div class="city-card bounce" onclick="getCityWeather('Axum')">👑 አክሱም</div>
-            <div class="city-card bounce" onclick="getCityWeather('Hawassa')">🐟 ሀዋሳ</div>
-            <div class="city-card bounce" onclick="getCityWeather('Mekelle')">⛰️ መቀሌ</div>
-        </div>
-
-        <!-- GitHub Projects -->
-        <h2 class="slide-right">📁 የኔ ፕሮጀክቶች</h2>
-        <div id="github-repos" class="repos-grid">
-            <div class="loading">📂 በመጫን ላይ...</div>
-        </div>
-
-        <footer class="fade-up">
-            <p>❤️ በ ዘድ 14 የተሰራ | ኢትዮጵያ አየር ሁኔታ</p>
-            <p>📧 ለአገልግሎት: ማንኛውም ሰው ሊጠቀም ይችላል</p>
-        </footer>
-    </div>
-
-    <script src="script.js"></script>
+    <script>
+        function test() {
+            document.getElementById('test').innerHTML = "✅ It works! Your GitHub Pages is active!";
+        }
+        
+        // Try to load GitHub repos
+        fetch('https://api.github.com/users/zedo14/repos')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('test').innerHTML = "✅ Connected! You have " + data.length + " repositories!";
+            })
+            .catch(err => {
+                document.getElementById('test').innerHTML = "✅ Page works! (GitHub API loading)";
+            });
+    </script>
 </body>
 </html>

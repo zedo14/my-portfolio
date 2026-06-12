@@ -1,31 +1,63 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My GitHub Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>🚀 My GitHub Portfolio</h1>
-      </header>
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ዘድ 14 | ፖርትፎሊዮ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p>እባክዎ ይጠብቁ...</p>
+    </div>
 
-      <div id="github-profile" class="profile-section">
-        <div class="loading">Loading GitHub profile...</div>
-      </div>
+    <!-- Main Content -->
+    <div class="container fade-in" id="mainContent" style="display: none;">
+        <header class="slide-down">
+            <h1>🚀 ዘድ 14 ፖርትፎሊዮ</h1>
+            <p>ወደ ኢትዮጵያ አየር ሁኔታ እንኳን በደህና መጡ!</p>
+        </header>
 
-      <h2>📁 Best Projects</h2>
-      <div id="github-repos" class="repos-grid">
-        <div class="loading">Loading repositories...</div>
-      </div>
+        <!-- Weather Section -->
+        <div class="weather-section zoom-in">
+            <div class="search-box">
+                <input type="text" id="cityInput" placeholder="ከተም ያስገቡ (ለምሳሌ: አዲስ አበባ)">
+                <button onclick="getWeather()">🔍 ፈልግ</button>
+                <button onclick="getCurrentLocation()">📍 ቦታዬ</button>
+            </div>
 
-      <footer>
-        <p>Made with ❤️ using GitHub API</p>
-      </footer>
+            <div id="weather-result" class="weather-card pulse">
+                <div class="loading">🌤️ ከተም ይምረጡ...</div>
+            </div>
+        </div>
+
+        <!-- Ethiopian Cities -->
+        <h2 class="slide-right">🇪🇹 ታዋቂ ከተሞች</h2>
+        <div class="cities-grid">
+            <div class="city-card bounce" onclick="getCityWeather('Addis Ababa')">🏙️ አዲስ አበባ</div>
+            <div class="city-card bounce" onclick="getCityWeather('Dire Dawa')">🏛️ ድሬ ዳዋ</div>
+            <div class="city-card bounce" onclick="getCityWeather('Bahir Dar')">🌊 ባህር ዳር</div>
+            <div class="city-card bounce" onclick="getCityWeather('Gondar')">🏰 ጎንደር</div>
+            <div class="city-card bounce" onclick="getCityWeather('Lalibela')">⛪ ላሊበላ</div>
+            <div class="city-card bounce" onclick="getCityWeather('Axum')">👑 አክሱም</div>
+            <div class="city-card bounce" onclick="getCityWeather('Hawassa')">🐟 ሀዋሳ</div>
+            <div class="city-card bounce" onclick="getCityWeather('Mekelle')">⛰️ መቀሌ</div>
+        </div>
+
+        <!-- GitHub Projects -->
+        <h2 class="slide-right">📁 የኔ ፕሮጀክቶች</h2>
+        <div id="github-repos" class="repos-grid">
+            <div class="loading">📂 በመጫን ላይ...</div>
+        </div>
+
+        <footer class="fade-up">
+            <p>❤️ በ ዘድ 14 የተሰራ | ኢትዮጵያ አየር ሁኔታ</p>
+            <p>📧 ለአገልግሎት: ማንኛውም ሰው ሊጠቀም ይችላል</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
